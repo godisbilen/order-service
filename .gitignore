@@ -1,0 +1,11 @@
+# npm packages
+node_modules/
+
+# envirement variables
+*.env
+
+# production code
+build/
+
+# Auto generated file on MacOS
+.DS_Store
