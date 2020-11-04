@@ -10,7 +10,7 @@ import Region from '../models/region';
  */
 const is_within_regions = (point: LatLngArray): Promise<boolean> => {
     return new Promise((resolve, reject) => {
-        Region.findOne()
+        Region.findOne({ active: true })
             .where('bounds')
             .intersects({ type: 'Point', coordinates: point })
             .exec()
