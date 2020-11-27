@@ -7,7 +7,7 @@ The delivery area is divided into smaller areas that can contain several cars. O
 ## Installation
 
 1. Download the project from github
-    - `git clone https://github.com/albinmedoc/car_order_service`
+    - `git clone https://github.com/godisbilen/car_order_service`
 2. Make sure you have node.js & npm installed on your machine.
     - You can find the download link [here](https://nodejs.org/en/download/).
 3. Install dependencies.
