@@ -14,8 +14,8 @@ const time_between = (origin: LatLngArray, destination: LatLngArray): Promise<nu
         client
             .distancematrix({
                 params: {
-                    origins: [[origin[1], origin[0]]],
-                    destinations: [[destination[1], destination[0]]],
+                    origins: [origin],
+                    destinations: [destination],
                     mode: TravelMode.driving,
                     language: 'sv',
                     key: process.env.GOOGLE_MAPS_API_KEY,
@@ -23,7 +23,11 @@ const time_between = (origin: LatLngArray, destination: LatLngArray): Promise<nu
             })
             // When promise resolve
             .then((response) => {
-                if (response.data && response.data.status === Status.OK) {
+                if (
+                    response.data &&
+                    response.data.status === Status.OK &&
+                    response.data.rows[0].elements[0].status !== Status.ZERO_RESULTS
+                ) {
                     resolve(response.data.rows[0].elements[0].duration.value);
                 }
                 reject(new Error('Could not get travel time from google maps service!'));
