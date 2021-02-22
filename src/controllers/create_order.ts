@@ -17,7 +17,7 @@ interface orderInfo {
     from?: Date;
 }
 
-const create_order = (orderinfo: orderInfo, force = true): Promise<order> => {
+const create_order = (orderinfo: orderInfo, force = false): Promise<order> => {
     return new Promise(async (resolve, reject) => {
         // Check so all required arguments is set
         if (!orderinfo.coordinates || !(orderinfo.phone_number || orderinfo.email)) {
