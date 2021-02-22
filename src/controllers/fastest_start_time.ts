@@ -40,7 +40,7 @@ const fastest_start_time_car = (
                 }
 
                 // Loop through every order
-                for (let i = 0; i < orders.length; i++) {
+                for (let i = 0; i <= orders.length; i++) {
                     // This is the order we are checking if it fits after
                     const prev = orders[i - 1] || null;
                     // This is the order we are checking if it fits before
