@@ -50,7 +50,7 @@ router.post('/', (req, res) => {
             return res.json(order_info);
         })
         .catch((err) => {
-            return res.status(500).json(err);
+            return res.status(500).json(err.message);
         });
 });
 
