@@ -34,22 +34,17 @@ const fits_between = (
         start.add(ignore_prev_order ? car.start_time : previous_order.stop_time, 'minute');
 
         // Set starting location, either the last order´s location or the car´s starting location
-        const start_loc: LatLng = ignore_prev_order
-            ? [car.start_pos.coordinates[1], car.start_pos.coordinates[0]]
-            : [previous_order.location.coordinates[1], previous_order.location.coordinates[0]];
+        const start_loc: LatLng = ignore_prev_order ? car.start_pos.coordinates : previous_order.location.coordinates;
 
         // Get time between starting location to the current order
-        time_between(start_loc, [current_order.location.coordinates[1], current_order.location.coordinates[0]])
+        time_between(start_loc, current_order.location.coordinates)
             .then((seconds) => {
                 // Add the seconds between the two orders so we get the time we could arrive at current order,
                 // also add the stop time for the current order
                 const current_order_arrival = start.add(seconds, 'second').add(current_order.stop_time, 'minute');
 
                 // Get time between the current order and the next order
-                time_between(
-                    [current_order.location.coordinates[1], current_order.location.coordinates[0]],
-                    [next_order.location.coordinates[1], next_order.location.coordinates[0]],
-                )
+                time_between(current_order.location.coordinates, next_order.location.coordinates)
                     .then((seconds) => {
                         // Add the seconds between the two orders sp we get the time we could arrive at next order
                         const next_order_arrival = current_order_arrival.add(seconds, 'second');
