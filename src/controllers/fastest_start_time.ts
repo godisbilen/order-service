@@ -91,7 +91,7 @@ const fastest_start_time = (
             const cars = await get_cars({ intersects: order.location.coordinates }).catch((err) => {
                 return reject(err);
             });
-            if (cars && cars.length < 1) return reject(new Error('No cars found for the order'));
+            if (!cars || cars.length < 1) return reject(new Error('No cars found for the order'));
             filter.cars = cars as car[];
         }
 
@@ -112,12 +112,12 @@ const fastest_start_time = (
                     // Update fastest with time_details from current car
                     fastest = time_details;
                 }
-            } catch (error) {
+            } catch (_err) {
                 continue;
             }
         }
         // If fastest is still a empty object we could not find a fastest start time, therefor reject.
-        if (Object.keys(fastest).length === 0 && fastest.constructor === Object) {
+        if (!fastest || (Object.keys(fastest).length === 0 && fastest.constructor === Object)) {
             return reject(new Error('Could not get fastest start time for order'));
         }
 
