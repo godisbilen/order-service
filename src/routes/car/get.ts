@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.get('/', (req, res) => {
     // Copy body object
-    const filter = Object.assign(req.body);
+    const filter = Object.assign(req.query);
 
     // Remove keys that we don´t need
     removeKeysExcept(filter, ['id', 'nickname', 'driver_id', 'intersects']);
