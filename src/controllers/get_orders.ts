@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import mongoose from 'mongoose';
 import Car from '../models/car';
-import { order } from '../types';
+import { order } from '@godisbilen/types';
 
 type filterDate =
     | dayjs.Dayjs

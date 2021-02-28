@@ -6,7 +6,7 @@ import get_cars from './get_cars';
 import Car from '../models/car';
 //import BudgetSMS from './BudgetSMS';
 import { LatLngArray } from '@googlemaps/google-maps-services-js';
-import { order, point } from '../types';
+import { car, point, order } from '@godisbilen/types';
 
 interface orderInfo {
     coordinates: LatLngArray;
@@ -87,7 +87,7 @@ const create_order = (orderinfo: orderInfo, force = false): Promise<order> => {
                                 )
                                     .exec()
                                     .then((temp) => {
-                                        const car = temp.toObject();
+                                        const car = temp.toObject() as car;
                                         resolve(car.orders[car.orders.length - 1]);
                                         /* const sms = new BudgetSMS();
                                         sms.from(process.env.BUDGETSMS_FROM).to('0123456789').send(); */

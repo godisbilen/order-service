@@ -1,6 +1,6 @@
 import { LatLngArray } from '@googlemaps/google-maps-services-js';
 import Region from '../models/region';
-import { car } from '../types';
+import { car } from '@godisbilen/types';
 
 interface filter {
     id?: string;

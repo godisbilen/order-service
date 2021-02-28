@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import get_orders from './get_orders';
 import fits_between from './fits_between';
 import get_cars from './get_cars';
-import { order, barebone_order, car } from '../types';
+import { order, create_order, car } from '@godisbilen/types';
 
 interface detailedResult {
     start_time: Date;
@@ -13,7 +13,7 @@ interface detailedResult {
 }
 
 const fastest_start_time_car = (
-    order: barebone_order,
+    order: create_order,
     car: car,
     from: Date | dayjs.Dayjs = dayjs(),
 ): Promise<detailedResult> => {
@@ -79,7 +79,7 @@ const fastest_start_time_car = (
 };
 
 const fastest_start_time = (
-    order: barebone_order | order,
+    order: create_order | order,
     filter: {
         cars?: car[];
         from?: Date | dayjs.Dayjs;

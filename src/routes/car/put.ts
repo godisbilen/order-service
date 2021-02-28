@@ -3,6 +3,7 @@ import validator from 'validator';
 import Car from '../../models/car';
 import Region from '../../models/region';
 import { removeKeys, removeKeysExcept } from '../../helpers';
+import type { car } from '@godisbilen/types';
 
 const router = express.Router();
 
@@ -50,7 +51,7 @@ router.put('/:car_id', (req, res) => {
                 return res.status(404).json({ status: 'Not Found', message: 'Could not find a car with that id' });
             }
 
-            const old_car = car.toObject();
+            const old_car = car.toObject() as car;
 
             if (data.hasOwnProperty('region') && (data.region != old_car.region || !old_car.hasOwnProperty('region'))) {
                 // Remove car from the old region

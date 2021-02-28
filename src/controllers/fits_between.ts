@@ -1,6 +1,6 @@
 import { LatLng } from '@googlemaps/google-maps-services-js';
 import dayjs from 'dayjs';
-import { barebone_order, car, order } from '../types';
+import { create_order, car, order } from '@godisbilen/types';
 import time_between from './time_between';
 
 /**
@@ -13,7 +13,7 @@ import time_between from './time_between';
  */
 const fits_between = (
     previous_order: order | null,
-    current_order: barebone_order,
+    current_order: create_order,
     next_order: order | null,
     car: car,
 ): Promise<boolean> => {
