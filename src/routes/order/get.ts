@@ -51,19 +51,29 @@ router.get('/', (req, res) => {
     if (filter.hasOwnProperty('email') && !validator.isEmail(filter.email)) {
         return res.status(400).json({ status: 'Bad Request', message: "Field 'email' is not a valid email address" });
     }
-    if (filter.hasOwnProperty('placed') && !dayjs(filter.placed).isValid()) {
-        return res.status(400).json({ status: 'Bad Request', message: "Field 'placed' is not a valid date" });
+    if (filter.hasOwnProperty('placed') && !validator.isBoolean(filter.placed) && !dayjs(filter.placed).isValid()) {
+        return res
+            .status(400)
+            .json({ status: 'Bad Request', message: "Field 'placed' is not a valid date or boolean" });
     }
-    if (filter.hasOwnProperty('started') && !dayjs(filter.started).isValid()) {
+    if (filter.hasOwnProperty('started') && !validator.isBoolean(filter.started) && !dayjs(filter.started).isValid()) {
         return res.status(400).json({ status: 'Bad Request', message: "Field 'started' is not a valid date" });
     }
-    if (filter.hasOwnProperty('arrival_time') && !dayjs(filter.arrival_time).isValid()) {
+    if (
+        filter.hasOwnProperty('arrival_time') &&
+        !validator.isBoolean(filter.arrival_time) &&
+        !dayjs(filter.arrival_time).isValid()
+    ) {
         return res.status(400).json({ status: 'Bad Request', message: "Field 'arrival_time' is not a valid date" });
     }
-    if (filter.hasOwnProperty('arrived') && !dayjs(filter.arrived).isValid()) {
+    if (filter.hasOwnProperty('arrived') && !validator.isBoolean(filter.arrived) && !dayjs(filter.arrived).isValid()) {
         return res.status(400).json({ status: 'Bad Request', message: "Field 'arrived' is not a valid date" });
     }
-    if (filter.hasOwnProperty('completed') && !dayjs(filter.completed).isValid()) {
+    if (
+        filter.hasOwnProperty('completed') &&
+        !validator.isBoolean(filter.completed) &&
+        !dayjs(filter.completed).isValid()
+    ) {
         return res.status(400).json({ status: 'Bad Request', message: "Field 'completed' is not a valid date" });
     }
     get_orders(filter)

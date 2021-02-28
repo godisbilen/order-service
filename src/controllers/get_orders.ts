@@ -41,11 +41,11 @@ const filter_date = (field: string, filter: filterDate) => {
         }
 
         // Field is set
-    } else if (filter === true) {
+    } else if (filter === true || filter === 'true') {
         temp[field].$gt = null;
     }
     // Field is not set
-    else if (filter === false) {
+    else if (filter === false || filter === 'false') {
         temp[field].$lte = null;
     }
 
