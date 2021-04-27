@@ -6,7 +6,12 @@ import register_routes from './routes';
 const getApp = (): express.Application => {
     const app = express();
     app.use(express.json());
-    app.use(cors());
+    app.use(
+        cors({
+            origin: 'http://localhost:3000',
+            credentials: true,
+        }),
+    );
     register_routes(app);
 
     // Connect to DB
