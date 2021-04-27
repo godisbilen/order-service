@@ -1,6 +1,7 @@
 import express from 'express';
 import validator from 'validator';
 import Driver from '../../models/driver';
+import bcrypt from 'bcrypt';
 import { removeKeys, removeKeysExcept } from '../../helpers';
 
 const router = express.Router();
@@ -32,6 +33,9 @@ router.post('/', (req, res) => {
             .status(400)
             .json({ status: 'Bad Request', message: "Field 'password' is required and minimun length of 6" });
     }
+
+    const salt = bcrypt.genSaltSync(10);
+    data['password'] = bcrypt.hashSync(data['password'], salt);
     const driver = new Driver(data);
     driver
         .save()

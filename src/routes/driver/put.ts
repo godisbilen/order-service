@@ -1,6 +1,7 @@
 import express from 'express';
 import validator from 'validator';
 import Driver from '../../models/driver';
+import bcrypt from 'bcrypt';
 import { removeKeys, removeKeysExcept } from '../../helpers';
 
 const router = express.Router();
@@ -37,10 +38,14 @@ router.put('/:driver_id', (req, res) => {
             .status(400)
             .json({ status: 'Bad Request', message: "Field 'username' should have a minimun length of 6" });
     }
-    if (data.hasOwnProperty('password') && !validator.isLength(data.password, { min: 6 })) {
-        return res
+    if (data.hasOwnProperty('password')) {
+        if(!validator.isLength(data.password, { min: 6 })){
+            return res
             .status(400)
             .json({ status: 'Bad Request', message: "Field 'password' should have a minimun length of 6" });
+        }
+        const salt = bcrypt.genSaltSync(10);
+        data['password'] = bcrypt.hashSync(data['password'], salt);
     }
 
     Driver.findByIdAndUpdate(req.params.driver_id, data)
