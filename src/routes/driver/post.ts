@@ -11,7 +11,13 @@ router.post('/', (req, res) => {
     const data = Object.assign(req.body);
 
     // Remove keys that we don´t need
-    removeKeysExcept(data, ['username', 'firstname', 'lastname', 'password']);
+    removeKeysExcept(data, [
+        'username',
+        'phone_number',
+        'firstname',
+        'lastname',
+        'password',
+    ]);
 
     if (
         !data.hasOwnProperty('username') ||
@@ -20,6 +26,15 @@ router.post('/', (req, res) => {
         return res.status(400).json({
             status: 'Bad Request',
             message: "Field 'username' is required and minimun length of 6",
+        });
+    }
+    if (
+        data.hasOwnProperty('phone_number') &&
+        !validator.isMobilePhone(data.phone_number, 'sv-SE')
+    ) {
+        return res.status(400).json({
+            status: 'Bad Request',
+            message: "Field 'phone_number' doesn´t look like a phone number",
         });
     }
     if (

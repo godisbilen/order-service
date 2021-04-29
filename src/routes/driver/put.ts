@@ -18,7 +18,13 @@ router.put('/:driver_id', (req, res) => {
     const data = Object.assign(req.body);
 
     // Remove keys that we don´t need
-    removeKeysExcept(data, ['username', 'firstname', 'lastname', 'password']);
+    removeKeysExcept(data, [
+        'username',
+        'phone_number',
+        'firstname',
+        'lastname',
+        'password',
+    ]);
 
     if (Object.keys(data).length < 1) {
         return res.status(400).json({
@@ -27,6 +33,24 @@ router.put('/:driver_id', (req, res) => {
         });
     }
 
+    if (
+        data.hasOwnProperty('username') &&
+        !validator.isLength(data.username, { min: 6 })
+    ) {
+        return res.status(400).json({
+            status: 'Bad Request',
+            message: "Field 'username' should have a minimun length of 6",
+        });
+    }
+    if (
+        data.hasOwnProperty('phone_number') &&
+        !validator.isMobilePhone(data.phone_number, 'sv-SE')
+    ) {
+        return res.status(400).json({
+            status: 'Bad Request',
+            message: "Field 'phone_number' doesn´t look like a phone number",
+        });
+    }
     if (
         data.hasOwnProperty('firstname') &&
         !validator.isLength(data.firstname, { min: 2 })
@@ -43,15 +67,6 @@ router.put('/:driver_id', (req, res) => {
         return res.status(400).json({
             status: 'Bad Request',
             message: "Field 'lastname' should have a minimun length of 2",
-        });
-    }
-    if (
-        data.hasOwnProperty('username') &&
-        !validator.isLength(data.username, { min: 6 })
-    ) {
-        return res.status(400).json({
-            status: 'Bad Request',
-            message: "Field 'username' should have a minimun length of 6",
         });
     }
     if (data.hasOwnProperty('password')) {
