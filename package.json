@@ -12,8 +12,7 @@
         "start": "node -r dotenv/config .",
         "start:dev": "node -r dotenv/config -r ts-node/register ./src/index.ts",
         "dev": "nodemon --watch src -e ts,js --exec \"npm run start:dev\"",
-        "test": "eslint --ext .ts ./src",
-        "format": "prettier-eslint --write \"{,!(node_modules)/**/}*.{js,jsx}\""
+        "test": "eslint --ext .ts ./src"
     },
     "devDependencies": {
         "@godisbilen/types": "^1.0.1",
