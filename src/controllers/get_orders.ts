@@ -8,7 +8,10 @@ type filterDate =
     | Date
     | string
     | boolean
-    | [dayjs.Dayjs | Date | string | undefined, dayjs.Dayjs | Date | string | undefined];
+    | [
+          dayjs.Dayjs | Date | string | undefined,
+          dayjs.Dayjs | Date | string | undefined,
+      ];
 
 interface filter {
     region_id?: string;
@@ -53,11 +56,14 @@ const filter_date = (field: string, filter: filterDate) => {
 };
 
 const validate_filter = (filter: filter): boolean => {
-    if (filter.region_id && !mongoose.Types.ObjectId.isValid(filter.region_id)) return false;
+    if (filter.region_id && !mongoose.Types.ObjectId.isValid(filter.region_id))
+        return false;
 
-    if (filter.car_id && !mongoose.Types.ObjectId.isValid(filter.car_id)) return false;
+    if (filter.car_id && !mongoose.Types.ObjectId.isValid(filter.car_id))
+        return false;
 
-    if (filter.driver_id && !mongoose.Types.ObjectId.isValid(filter.driver_id)) return false;
+    if (filter.driver_id && !mongoose.Types.ObjectId.isValid(filter.driver_id))
+        return false;
 
     return true;
 };
@@ -65,7 +71,8 @@ const validate_filter = (filter: filter): boolean => {
 const get_orders = (filter: filter = {}, sort?: sort): Promise<order[]> => {
     return new Promise((resolve, reject) => {
         // Validate filter
-        if (!validate_filter(filter)) reject(new Error('Filter argument is not valid.'));
+        if (!validate_filter(filter))
+            reject(new Error('Filter argument is not valid.'));
         const aggregate = [
             {
                 $match: {
@@ -100,11 +107,19 @@ const get_orders = (filter: filter = {}, sort?: sort): Promise<order[]> => {
                             $eq: filter.email,
                         },
                     }),
-                    ...(filter.placed && filter_date('orders.placed', filter.placed)),
-                    ...(filter.started && filter_date('orders.started', filter.started)),
-                    ...(filter.arrival_time && filter_date('orders.arrival_time', filter.arrival_time)),
-                    ...(filter.arrived && filter_date('orders.arrived', filter.arrived)),
-                    ...(filter.completed && filter_date('orders.completed', filter.completed)),
+                    ...(filter.placed &&
+                        filter_date('orders.placed', filter.placed)),
+                    ...(filter.started &&
+                        filter_date('orders.started', filter.started)),
+                    ...(filter.arrival_time &&
+                        filter_date(
+                            'orders.arrival_time',
+                            filter.arrival_time,
+                        )),
+                    ...(filter.arrived &&
+                        filter_date('orders.arrived', filter.arrived)),
+                    ...(filter.completed &&
+                        filter_date('orders.completed', filter.completed)),
                 },
             },
             ...(sort ? [{ $sort: sort }] : []),

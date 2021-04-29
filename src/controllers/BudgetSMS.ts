@@ -3,7 +3,13 @@ import axios, { AxiosResponse } from 'axios';
 const budget_sms_url = 'https://api.budgetsms.net/sendsms/';
 
 class BudgetSMS {
-    _options: { userid: string; username: string; handle: string; credit: number; price: number };
+    _options: {
+        userid: string;
+        username: string;
+        handle: string;
+        credit: number;
+        price: number;
+    };
     constructor() {
         this._options = {
             userid: process.env.BUDGETSMS_USERID,
@@ -16,7 +22,11 @@ class BudgetSMS {
 
     _validateOptions(): void {
         Object.keys(this._options).forEach((optionKey) => {
-            if (['userid', 'username', 'handle', 'from', 'to', 'msg'].indexOf(optionKey) < 0) {
+            if (
+                ['userid', 'username', 'handle', 'from', 'to', 'msg'].indexOf(
+                    optionKey,
+                ) < 0
+            ) {
                 throw new Error(`Option '${optionKey}' does not exist`);
             }
         });

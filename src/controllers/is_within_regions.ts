@@ -18,7 +18,11 @@ const is_within_regions = (point: LatLngArray): Promise<boolean> => {
                 resolve(region !== null);
             })
             .catch(() => {
-                reject(new Error('Error while querring database to see if point is within regions.'));
+                reject(
+                    new Error(
+                        'Error while querring database to see if point is within regions.',
+                    ),
+                );
             });
     });
 };

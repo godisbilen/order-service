@@ -1,4 +1,9 @@
-import { Client, LatLngArray, Status, TravelMode } from '@googlemaps/google-maps-services-js';
+import {
+    Client,
+    LatLngArray,
+    Status,
+    TravelMode,
+} from '@googlemaps/google-maps-services-js';
 const client = new Client({});
 
 /**
@@ -8,7 +13,10 @@ const client = new Client({});
  *
  * @returns {Promise<Number>} Return time between the two coordinates in seconds
  */
-const time_between = (origin: LatLngArray, destination: LatLngArray): Promise<number> => {
+const time_between = (
+    origin: LatLngArray,
+    destination: LatLngArray,
+): Promise<number> => {
     return new Promise((resolve, reject) => {
         // Send request to google maps service
         client
@@ -26,11 +34,16 @@ const time_between = (origin: LatLngArray, destination: LatLngArray): Promise<nu
                 if (
                     response.data &&
                     response.data.status === Status.OK &&
-                    response.data.rows[0].elements[0].status !== Status.ZERO_RESULTS
+                    response.data.rows[0].elements[0].status !==
+                        Status.ZERO_RESULTS
                 ) {
                     resolve(response.data.rows[0].elements[0].duration.value);
                 }
-                reject(new Error('Could not get travel time from google maps service!'));
+                reject(
+                    new Error(
+                        'Could not get travel time from google maps service!',
+                    ),
+                );
             })
             // When promise reject
             .catch((err) => {

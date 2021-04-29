@@ -13,12 +13,19 @@ router.get('/', (req, res) => {
     removeKeysExcept(filter, ['id', 'nickname', 'driver_id', 'intersects']);
 
     if (filter.hasOwnProperty('id') && !validator.isMongoId(req.body.id)) {
-        return res.status(400).json({ status: 'Bad Request', message: "Field 'id' is not a valid MongoDB ObjectID" });
+        return res.status(400).json({
+            status: 'Bad Request',
+            message: "Field 'id' is not a valid MongoDB ObjectID",
+        });
     }
-    if (filter.hasOwnProperty('driver_id') && !validator.isMongoId(req.body.driver_id)) {
-        return res
-            .status(400)
-            .json({ status: 'Bad Request', message: "Field 'driver_id' is not a valid MongoDB ObjectID" });
+    if (
+        filter.hasOwnProperty('driver_id') &&
+        !validator.isMongoId(req.body.driver_id)
+    ) {
+        return res.status(400).json({
+            status: 'Bad Request',
+            message: "Field 'driver_id' is not a valid MongoDB ObjectID",
+        });
     }
     if (
         filter.hasOwnProperty('intersects') &&
@@ -31,7 +38,10 @@ router.get('/', (req, res) => {
             isLngLat(filter.intersects)
         )
     ) {
-        return res.status(400).json({ status: 'Bad Request', message: "Field 'intersects' is not valid coordinates" });
+        return res.status(400).json({
+            status: 'Bad Request',
+            message: "Field 'intersects' is not valid coordinates",
+        });
     }
 
     get_cars(filter)
@@ -45,14 +55,18 @@ router.get('/', (req, res) => {
 
 router.get('/:car_id', (req, res) => {
     if (!validator.isMongoId(req.params.car_id)) {
-        return res
-            .status(400)
-            .json({ status: 'Bad Request', message: `'${req.params.car_id}' is not a valid MongoDB ObjectID` });
+        return res.status(400).json({
+            status: 'Bad Request',
+            message: `'${req.params.car_id}' is not a valid MongoDB ObjectID`,
+        });
     }
     get_cars({ id: req.params.car_id })
         .then((cars) => {
             if (!cars[0]) {
-                return res.status(404).json({ status: 'Not Found', message: 'Could not find a car with that id' });
+                return res.status(404).json({
+                    status: 'Not Found',
+                    message: 'Could not find a car with that id',
+                });
             }
             return res.json(cars[0]);
         })

@@ -14,10 +14,19 @@ router.get('/', (req, res) => {
 
     // Validate fields
     if (filter.hasOwnProperty('id') && !validator.isMongoId(filter.id)) {
-        return res.status(400).json({ status: 'Bad Request', message: "Field 'id' is not a valid MongoDB ObjectID" });
+        return res.status(400).json({
+            status: 'Bad Request',
+            message: "Field 'id' is not a valid MongoDB ObjectID",
+        });
     }
-    if (filter.hasOwnProperty('active') && !validator.isBoolean(filter.active)) {
-        return res.status(400).json({ status: 'Bad Request', message: "Field 'active' is not a valid boolean" });
+    if (
+        filter.hasOwnProperty('active') &&
+        !validator.isBoolean(filter.active)
+    ) {
+        return res.status(400).json({
+            status: 'Bad Request',
+            message: "Field 'active' is not a valid boolean",
+        });
     }
 
     get_regions(filter)
@@ -31,14 +40,18 @@ router.get('/', (req, res) => {
 
 router.get('/:region_id', (req, res) => {
     if (validator.isMongoId(req.params.region_id)) {
-        return res
-            .status(400)
-            .json({ status: 'Bad Request', message: `'${req.params.region_id}' is not an valid Mongo ObjectID` });
+        return res.status(400).json({
+            status: 'Bad Request',
+            message: `'${req.params.region_id}' is not an valid Mongo ObjectID`,
+        });
     }
     get_regions({ id: req.params.region_id })
         .then((regions) => {
             if (!regions[0]) {
-                return res.status(404).json({ status: 'Not Found', message: 'Could not find a region with that id' });
+                return res.status(404).json({
+                    status: 'Not Found',
+                    message: 'Could not find a region with that id',
+                });
             }
             return res.json(regions[0]);
         })

@@ -26,38 +26,66 @@ const fits_between = (
         // Now we know there is an upcoming order
 
         // Check if we can ignore previous order
-        const ignore_prev_order = !previous_order || previous_order.completed !== null;
+        const ignore_prev_order =
+            !previous_order || previous_order.completed !== null;
 
         // Calculate when the car can start driving forwards the current order
-        const start = dayjs(ignore_prev_order ? new Date() : previous_order.arrival_time);
+        const start = dayjs(
+            ignore_prev_order ? new Date() : previous_order.arrival_time,
+        );
         // Add start time if there is no previous order, otherwise add the previous order´s stop time
-        start.add(ignore_prev_order ? car.start_time : previous_order.stop_time, 'minute');
+        start.add(
+            ignore_prev_order ? car.start_time : previous_order.stop_time,
+            'minute',
+        );
 
         // Set starting location, either the last order´s location or the car´s starting location
-        const start_loc: LatLng = ignore_prev_order ? car.start_pos.coordinates : previous_order.location.coordinates;
+        const start_loc: LatLng = ignore_prev_order
+            ? car.start_pos.coordinates
+            : previous_order.location.coordinates;
 
         // Get time between starting location to the current order
         time_between(start_loc, current_order.location.coordinates)
             .then((seconds) => {
                 // Add the seconds between the two orders so we get the time we could arrive at current order,
                 // also add the stop time for the current order
-                const current_order_arrival = start.add(seconds, 'second').add(current_order.stop_time, 'minute');
+                const current_order_arrival = start
+                    .add(seconds, 'second')
+                    .add(current_order.stop_time, 'minute');
 
                 // Get time between the current order and the next order
-                time_between(current_order.location.coordinates, next_order.location.coordinates)
+                time_between(
+                    current_order.location.coordinates,
+                    next_order.location.coordinates,
+                )
                     .then((seconds) => {
                         // Add the seconds between the two orders sp we get the time we could arrive at next order
-                        const next_order_arrival = current_order_arrival.add(seconds, 'second');
+                        const next_order_arrival = current_order_arrival.add(
+                            seconds,
+                            'second',
+                        );
 
                         // Return true if arrival is less than the arrival time set in the next order, otherwise false
-                        return resolve(next_order_arrival.isBefore(dayjs(next_order.arrival_time)));
+                        return resolve(
+                            next_order_arrival.isBefore(
+                                dayjs(next_order.arrival_time),
+                            ),
+                        );
                     })
                     .catch(() => {
-                        return reject(new Error('Could not get time between order and next order'));
+                        return reject(
+                            new Error(
+                                'Could not get time between order and next order',
+                            ),
+                        );
                     });
             })
             .catch(() => {
-                return reject(new Error('Could not get time between order and previous order'));
+                return reject(
+                    new Error(
+                        'Could not get time between order and previous order',
+                    ),
+                );
             });
     });
 };

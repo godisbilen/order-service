@@ -25,10 +25,10 @@ router.post('/authenticate', (req, res) => {
         });
     }
 
-    Driver.findOne({username: data.username})
+    Driver.findOne({ username: data.username })
         .exec()
         .then((temp) => {
-            if(!temp){
+            if (!temp) {
                 return res.status(401).send();
             }
             const driver = temp.toObject();
@@ -36,20 +36,23 @@ router.post('/authenticate', (req, res) => {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             bcrypt.compare(data.password, driver.password).then((correct) => {
-                if(correct){
+                if (correct) {
                     return res
                         .status(200)
-                        .json(jwt.sign(driver, process.env.SECRET, { expiresIn: '30d' }))
+                        .json(
+                            jwt.sign(driver, process.env.SECRET, {
+                                expiresIn: '30d',
+                            }),
+                        )
                         .send();
                 }
                 return res.status(401).send();
             });
-
         })
         .catch((err) => {
             console.log(err);
             return res.status(500).json(err).send();
-        })
+        });
 });
 
 export default router;

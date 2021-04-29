@@ -31,7 +31,9 @@ const fastest_start_time_car = (
                 // If there is no active orders assigned to the car, we can start driving torwards the order right away.
                 if (orders.length < 1) {
                     return resolve({
-                        start_time: dayjs().add(car.start_time, 'minute').toDate(),
+                        start_time: dayjs()
+                            .add(car.start_time, 'minute')
+                            .toDate(),
                         car_id: car._id,
                         region_id: car.region,
                         previous_order: null,
@@ -47,7 +49,12 @@ const fastest_start_time_car = (
                     const next = orders[i] || null;
 
                     // Check if order fits between the two orders
-                    const fits = await fits_between(prev, order, next, car).catch((err) => {
+                    const fits = await fits_between(
+                        prev,
+                        order,
+                        next,
+                        car,
+                    ).catch((err) => {
                         // If an error occurred, reject it
                         return reject(err);
                     });
@@ -55,10 +62,9 @@ const fastest_start_time_car = (
                     // If the order fits between the two
                     if (fits) {
                         // Calculate time when we could start driving torwards the order
-                        const start_time = dayjs(prev ? prev.arrival_time : Date.now()).add(
-                            prev ? prev.stop_time : car.start_time,
-                            'minute',
-                        );
+                        const start_time = dayjs(
+                            prev ? prev.arrival_time : Date.now(),
+                        ).add(prev ? prev.stop_time : car.start_time, 'minute');
 
                         // Resolve the result
                         return resolve({
@@ -70,10 +76,14 @@ const fastest_start_time_car = (
                         });
                     }
                 }
-                return reject(new Error('Could not get fastest start time for order'));
+                return reject(
+                    new Error('Could not get fastest start time for order'),
+                );
             })
             .catch(() => {
-                return reject(new Error('Error while getting uncompleted orders'));
+                return reject(
+                    new Error('Error while getting uncompleted orders'),
+                );
             });
     });
 };
@@ -88,10 +98,13 @@ const fastest_start_time = (
     return new Promise(async (resolve, reject) => {
         // If no cars was specified, we will get cars that covers the location of the order
         if (!filter.cars) {
-            const cars = await get_cars({ intersects: order.location.coordinates }).catch((err) => {
+            const cars = await get_cars({
+                intersects: order.location.coordinates,
+            }).catch((err) => {
                 return reject(err);
             });
-            if (!cars || cars.length < 1) return reject(new Error('No cars found for the order'));
+            if (!cars || cars.length < 1)
+                return reject(new Error('No cars found for the order'));
             filter.cars = cars as car[];
         }
 
@@ -105,10 +118,17 @@ const fastest_start_time = (
             const car = filter.cars[i];
             try {
                 // Get information when we could start driving torwards the order (with this car)
-                const time_details = await fastest_start_time_car(order, car, filter.from ? filter.from : dayjs());
+                const time_details = await fastest_start_time_car(
+                    order,
+                    car,
+                    filter.from ? filter.from : dayjs(),
+                );
 
                 // Check if we could arrive erlier than previos cars
-                if (fastest === null || dayjs(time_details.start_time).isBefore(fastest.start_time)) {
+                if (
+                    fastest === null ||
+                    dayjs(time_details.start_time).isBefore(fastest.start_time)
+                ) {
                     // Update fastest with time_details from current car
                     fastest = time_details;
                 }
@@ -117,8 +137,14 @@ const fastest_start_time = (
             }
         }
         // If fastest is still a empty object we could not find a fastest start time, therefor reject.
-        if (!fastest || (Object.keys(fastest).length === 0 && fastest.constructor === Object)) {
-            return reject(new Error('Could not get fastest start time for order'));
+        if (
+            !fastest ||
+            (Object.keys(fastest).length === 0 &&
+                fastest.constructor === Object)
+        ) {
+            return reject(
+                new Error('Could not get fastest start time for order'),
+            );
         }
 
         // Resolve the result

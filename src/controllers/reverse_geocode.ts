@@ -1,4 +1,10 @@
-import { AddressType, Client, Language, LatLngArray, Status } from '@googlemaps/google-maps-services-js';
+import {
+    AddressType,
+    Client,
+    Language,
+    LatLngArray,
+    Status,
+} from '@googlemaps/google-maps-services-js';
 
 const client = new Client({});
 
