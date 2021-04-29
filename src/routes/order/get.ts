@@ -123,7 +123,9 @@ router.get('/', (req, res) => {
             message: "Field 'completed' is not a valid date",
         });
     }
-    get_orders(filter)
+    get_orders(filter, {
+        placed: 1,
+    })
         .then((orders) => {
             res.json(orders);
         })
