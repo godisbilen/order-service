@@ -10,13 +10,7 @@ router.get('/', (req, res) => {
     const filter = Object.assign(req.query);
 
     // Remove keys that we don´t need
-    removeKeysExcept(filter, [
-        'id',
-        'username',
-        'firstname',
-        'lastname',
-        'car',
-    ]);
+    removeKeysExcept(filter, ['id', 'username', 'firstname', 'lastname']);
 
     if (filter.hasOwnProperty('id') && !validator.isMongoId(filter.id)) {
         return res.status(400).json({
@@ -49,12 +43,6 @@ router.get('/', (req, res) => {
         return res.status(400).json({
             status: 'Bad Request',
             message: "Field 'lastname' needs to have a minimun length of 2",
-        });
-    }
-    if (filter.hasOwnProperty('car') && !validator.isMongoId(filter.car)) {
-        return res.status(400).json({
-            status: 'Bad Request',
-            message: "Field 'car' is not a valid MongoDB ObjectID",
         });
     }
 

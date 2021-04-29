@@ -19,11 +19,6 @@ const schema = new mongoose.Schema({
         required: true,
         default: 1,
     },
-    car: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Car',
-        required: false,
-    },
 });
 
 export default mongoose.model('Driver', schema);
