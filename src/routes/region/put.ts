@@ -25,7 +25,7 @@ router.put('/:region_id', (req, res) => {
     removeKeysExcept(data, ['name', 'active', 'bounds']);
 
     if (
-        data.hasOwnProperty('active') &&
+        data['active'] !== undefined &&
         !(data.active === false || data.active === true)
     ) {
         return res.status(400).json({
@@ -34,7 +34,7 @@ router.put('/:region_id', (req, res) => {
         });
     }
 
-    if (data.hasOwnProperty('bounds')) {
+    if (data['bounds'] !== undefined) {
         // Validate coordinates in bounds
         Object.values(data.bounds).forEach((coordinate: [number, number]) => {
             if (!isLngLat(coordinate)) {

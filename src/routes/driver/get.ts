@@ -12,14 +12,14 @@ router.get('/', (req, res) => {
     // Remove keys that we don´t need
     removeKeysExcept(filter, ['id', 'username', 'firstname', 'lastname']);
 
-    if (filter.hasOwnProperty('id') && !validator.isMongoId(filter.id)) {
+    if (filter['id'] !== undefined && !validator.isMongoId(filter.id)) {
         return res.status(400).json({
             status: 'Bad Request',
             message: "Field 'id' is not a valid MongoDB ObjectID",
         });
     }
     if (
-        filter.hasOwnProperty('username') &&
+        filter['username'] !== undefined &&
         !validator.isLength(filter.username, { min: 6 })
     ) {
         return res.status(400).json({
@@ -28,7 +28,7 @@ router.get('/', (req, res) => {
         });
     }
     if (
-        filter.hasOwnProperty('firstname') &&
+        filter['firstname'] !== undefined &&
         !validator.isLength(filter.firstname, { min: 2 })
     ) {
         return res.status(400).json({
@@ -37,7 +37,7 @@ router.get('/', (req, res) => {
         });
     }
     if (
-        filter.hasOwnProperty('lastname') &&
+        filter['lastname'] !== undefined &&
         !validator.isLength(filter.lastname, { min: 2 })
     ) {
         return res.status(400).json({

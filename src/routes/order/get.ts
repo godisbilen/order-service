@@ -26,7 +26,7 @@ router.get('/', (req, res) => {
     ]);
 
     if (
-        filter.hasOwnProperty('region_id') &&
+        filter['region_id'] !== undefined &&
         !validator.isMongoId(filter.region_id)
     ) {
         return res.status(400).json({
@@ -34,17 +34,14 @@ router.get('/', (req, res) => {
             message: "Field 'region_id' is not a valid MongoDB ObjectID",
         });
     }
-    if (
-        filter.hasOwnProperty('car_id') &&
-        !validator.isMongoId(filter.car_id)
-    ) {
+    if (filter['car_id'] !== undefined && !validator.isMongoId(filter.car_id)) {
         return res.status(400).json({
             status: 'Bad Request',
             message: "Field 'car_id' is not a valid MongoDB ObjectID",
         });
     }
     if (
-        filter.hasOwnProperty('driver_id') &&
+        filter['driver_id'] !== undefined &&
         !validator.isMongoId(filter.driver_id)
     ) {
         return res.status(400).json({
@@ -52,14 +49,14 @@ router.get('/', (req, res) => {
             message: "Field 'driver_id' is not a valid MongoDB ObjectID",
         });
     }
-    if (filter.hasOwnProperty('id') && !validator.isMongoId(filter.id)) {
+    if (filter['id'] !== undefined && !validator.isMongoId(filter.id)) {
         return res.status(400).json({
             status: 'Bad Request',
             message: "Field 'id' is not a valid MongoDB ObjectID",
         });
     }
     if (
-        filter.hasOwnProperty('phone_number') &&
+        filter['phone_number'] !== undefined &&
         !validator.isMobilePhone(filter.phone_number)
     ) {
         return res.status(400).json({
@@ -67,14 +64,14 @@ router.get('/', (req, res) => {
             message: "Field 'phone_number' is not a valid mobile number",
         });
     }
-    if (filter.hasOwnProperty('email') && !validator.isEmail(filter.email)) {
+    if (filter['email'] !== undefined && !validator.isEmail(filter.email)) {
         return res.status(400).json({
             status: 'Bad Request',
             message: "Field 'email' is not a valid email address",
         });
     }
     if (
-        filter.hasOwnProperty('placed') &&
+        filter['placed'] !== undefined &&
         !validator.isBoolean(filter.placed) &&
         !dayjs(filter.placed).isValid()
     ) {
@@ -84,7 +81,7 @@ router.get('/', (req, res) => {
         });
     }
     if (
-        filter.hasOwnProperty('started') &&
+        filter['started'] !== undefined &&
         !validator.isBoolean(filter.started) &&
         !dayjs(filter.started).isValid()
     ) {
@@ -94,7 +91,7 @@ router.get('/', (req, res) => {
         });
     }
     if (
-        filter.hasOwnProperty('arrival_time') &&
+        filter['arrival_time'] !== undefined &&
         !validator.isBoolean(filter.arrival_time) &&
         !dayjs(filter.arrival_time).isValid()
     ) {
@@ -104,7 +101,7 @@ router.get('/', (req, res) => {
         });
     }
     if (
-        filter.hasOwnProperty('arrived') &&
+        filter['arrived'] !== undefined &&
         !validator.isBoolean(filter.arrived) &&
         !dayjs(filter.arrived).isValid()
     ) {
@@ -114,7 +111,7 @@ router.get('/', (req, res) => {
         });
     }
     if (
-        filter.hasOwnProperty('completed') &&
+        filter['completed'] !== undefined &&
         !validator.isBoolean(filter.completed) &&
         !dayjs(filter.completed).isValid()
     ) {

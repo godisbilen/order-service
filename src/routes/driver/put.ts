@@ -34,7 +34,7 @@ router.put('/:driver_id', (req, res) => {
     }
 
     if (
-        data.hasOwnProperty('username') &&
+        data['username'] !== undefined &&
         !validator.isLength(data.username, { min: 6 })
     ) {
         return res.status(400).json({
@@ -43,7 +43,7 @@ router.put('/:driver_id', (req, res) => {
         });
     }
     if (
-        data.hasOwnProperty('phone_number') &&
+        data['phone_number'] !== undefined &&
         !validator.isMobilePhone(data.phone_number, 'sv-SE')
     ) {
         return res.status(400).json({
@@ -52,7 +52,7 @@ router.put('/:driver_id', (req, res) => {
         });
     }
     if (
-        data.hasOwnProperty('firstname') &&
+        data['firstname'] !== undefined &&
         !validator.isLength(data.firstname, { min: 2 })
     ) {
         return res.status(400).json({
@@ -61,7 +61,7 @@ router.put('/:driver_id', (req, res) => {
         });
     }
     if (
-        data.hasOwnProperty('lastname') &&
+        data['lastname'] !== undefined &&
         !validator.isLength(data.lastname, { min: 2 })
     ) {
         return res.status(400).json({
@@ -69,7 +69,7 @@ router.put('/:driver_id', (req, res) => {
             message: "Field 'lastname' should have a minimun length of 2",
         });
     }
-    if (data.hasOwnProperty('password')) {
+    if (data['password'] !== undefined) {
         if (!validator.isLength(data.password, { min: 6 })) {
             return res.status(400).json({
                 status: 'Bad Request',

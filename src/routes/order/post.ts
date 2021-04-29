@@ -36,7 +36,7 @@ router.post('/', (req, res) => {
         });
     }
     if (
-        data.hasOwnProperty('phone_number') &&
+        data['phone_number'] !== undefined &&
         !validator.isMobilePhone(data.phone_number, 'sv-SE')
     ) {
         return res.status(400).json({
@@ -44,19 +44,19 @@ router.post('/', (req, res) => {
             message: "Field 'phone_number' is not a valid phone number",
         });
     }
-    if (data.hasOwnProperty('email') && !validator.isEmail(data.email)) {
+    if (data['email'] !== undefined && !validator.isEmail(data.email)) {
         return res.status(400).json({
             status: 'Bad Request',
             message: "Field 'email' is not a valid email-address",
         });
     }
-    if (data.hasOwnProperty('stop_time') && isNaN(data.stop_time)) {
+    if (data['stop_time'] !== undefined && isNaN(data.stop_time)) {
         return res.status(400).json({
             status: 'Bad Request',
             message: "Field 'stop_time' is not a valid numeric value",
         });
     }
-    if (data.hasOwnProperty('from')) {
+    if (data['from'] !== undefined) {
         if (!dayjs(data.from).isValid()) {
             return res.status(400).json({
                 status: 'Bad Request',

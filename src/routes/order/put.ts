@@ -34,7 +34,7 @@ router.put('/:order_id', (req, res) => {
         });
     }
     if (
-        data.hasOwnProperty('phone_number') &&
+        data['phone_number'] !== undefined &&
         !validator.isMobilePhone(data.phone_number, 'sv-SE')
     ) {
         return res.status(400).json({
@@ -42,31 +42,31 @@ router.put('/:order_id', (req, res) => {
             message: "Field 'phone_number' is not a valid phone number",
         });
     }
-    if (data.hasOwnProperty('email') && !validator.isEmail(data.email)) {
+    if (data['email'] !== undefined && !validator.isEmail(data.email)) {
         return res.status(400).json({
             status: 'Bad Request',
             message: "Field 'email' is not a valid email-address",
         });
     }
-    if (data.hasOwnProperty('stop_time') && isNaN(data.stop_time)) {
+    if (data['stop_time'] !== undefined && isNaN(data.stop_time)) {
         return res.status(400).json({
             status: 'Bad Request',
             message: "Field 'stop_time' is not a valid numeric value",
         });
     }
-    if (data.hasOwnProperty('started') && !dayjs(data.started).isValid()) {
+    if (data['started'] !== undefined && !dayjs(data.started).isValid()) {
         return res.status(400).json({
             status: 'Bad Request',
             message: "Field 'started' is not a valid date value",
         });
     }
-    if (data.hasOwnProperty('arrived') && !dayjs(data.arrived).isValid()) {
+    if (data['arrived'] !== undefined && !dayjs(data.arrived).isValid()) {
         return res.status(400).json({
             status: 'Bad Request',
             message: "Field 'arrived' is not a valid date value",
         });
     }
-    if (data.hasOwnProperty('completed') && !dayjs(data.completed).isValid()) {
+    if (data['completed'] !== undefined && !dayjs(data.completed).isValid()) {
         return res.status(400).json({
             status: 'Bad Request',
             message: "Field 'completed' is not a valid date value",
@@ -77,22 +77,22 @@ router.put('/:order_id', (req, res) => {
         { 'orders._id': req.params.order_id },
         {
             $set: {
-                ...(data.hasOwnProperty('phone_number') && {
+                ...(data['phone_number'] !== undefined && {
                     'orders.$.phone_number': data.phone_number,
                 }),
-                ...(data.hasOwnProperty('email') && {
+                ...(data['email'] !== undefined && {
                     'orders.$.email': data.email,
                 }),
-                ...(data.hasOwnProperty('stop_time') && {
+                ...(data['stop_time'] !== undefined && {
                     'orders.$.stop_time': data.stop_time,
                 }),
-                ...(data.hasOwnProperty('started') && {
+                ...(data['started'] !== undefined && {
                     'orders.$.started': data.started,
                 }),
-                ...(data.hasOwnProperty('arrived') && {
+                ...(data['arrived'] !== undefined && {
                     'orders.$.arrived': data.arrived,
                 }),
-                ...(data.hasOwnProperty('completed') && {
+                ...(data['completed'] !== undefined && {
                     'orders.$.completed': data.completed,
                 }),
             },

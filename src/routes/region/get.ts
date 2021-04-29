@@ -13,16 +13,13 @@ router.get('/', (req, res) => {
     removeKeysExcept(filter, ['id', 'name', 'active', 'intersects']);
 
     // Validate fields
-    if (filter.hasOwnProperty('id') && !validator.isMongoId(filter.id)) {
+    if (filter['id'] !== undefined && !validator.isMongoId(filter.id)) {
         return res.status(400).json({
             status: 'Bad Request',
             message: "Field 'id' is not a valid MongoDB ObjectID",
         });
     }
-    if (
-        filter.hasOwnProperty('active') &&
-        !validator.isBoolean(filter.active)
-    ) {
+    if (filter['active'] !== undefined && !validator.isBoolean(filter.active)) {
         return res.status(400).json({
             status: 'Bad Request',
             message: "Field 'active' is not a valid boolean",

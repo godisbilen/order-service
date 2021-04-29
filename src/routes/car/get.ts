@@ -12,14 +12,14 @@ router.get('/', (req, res) => {
     // Remove keys that we don´t need
     removeKeysExcept(filter, ['id', 'nickname', 'driver_id', 'intersects']);
 
-    if (filter.hasOwnProperty('id') && !validator.isMongoId(req.body.id)) {
+    if (filter['id'] !== undefined && !validator.isMongoId(req.body.id)) {
         return res.status(400).json({
             status: 'Bad Request',
             message: "Field 'id' is not a valid MongoDB ObjectID",
         });
     }
     if (
-        filter.hasOwnProperty('driver_id') &&
+        filter['driver_id'] !== undefined &&
         !validator.isMongoId(req.body.driver_id)
     ) {
         return res.status(400).json({
@@ -28,7 +28,7 @@ router.get('/', (req, res) => {
         });
     }
     if (
-        filter.hasOwnProperty('intersects') &&
+        filter['intersects'] !== undefined &&
         !(
             Array.isArray(filter.intersects) &&
             filter.intersects[0] &&

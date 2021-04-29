@@ -17,25 +17,25 @@ router.post('/', (req, res) => {
     removeKeysExcept(data, ['name', 'active', 'bounds']);
 
     // Validate fields
-    if (!data.hasOwnProperty('name')) {
+    if (data['name'] === undefined) {
         return res.status(400).json({
             status: 'Bad Request',
             message: "Field 'name' is required",
         });
     }
+    if (data['bounds'] === undefined) {
+        return res.status(400).json({
+            status: 'Bad Request',
+            message: "Field 'bounds' is required",
+        });
+    }
     if (
-        data.hasOwnProperty('active') &&
+        data['active'] !== undefined &&
         !(data.active === false || data.active === true)
     ) {
         return res.status(400).json({
             status: 'Bad Request',
             message: "Field 'active' is not a boolean",
-        });
-    }
-    if (!data.hasOwnProperty('bounds')) {
-        return res.status(400).json({
-            status: 'Bad Request',
-            message: "Field 'bounds' is required",
         });
     }
 

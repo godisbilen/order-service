@@ -27,27 +27,27 @@ router.put('/:car_id', (req, res) => {
             message: 'Atleast one field has to be updated',
         });
     }
-    if (data.hasOwnProperty('nickname') && data.nickname.length < 4) {
+    if (data['nickname'] !== undefined && data.nickname.length < 4) {
         return res.status(400).json({
             status: 'Bad Request',
             message: "Field 'nickname' has to be longer than 4 characters",
         });
     }
-    if (data.hasOwnProperty('driver') && !validator.isMongoId(data.driver)) {
+    if (data['driver'] !== undefined && !validator.isMongoId(data.driver)) {
         return res.status(400).json({
             status: 'Bad Request',
             message: "Field 'driver' is not a valid MongoDB ObjectID",
         });
     }
-    if (data.hasOwnProperty('region') && !validator.isMongoId(data.region)) {
+    if (data['region'] !== undefined && !validator.isMongoId(data.region)) {
         return res.status(400).json({
             status: 'Bad Request',
             message: "Field 'region' is not a valid MongoDB ObjectID",
         });
     }
     if (
-        data.hasOwnProperty('start_time') &&
-        !validator.isNumeric('' + req.body.start_time)
+        data['start_time'] !== undefined &&
+        !validator.isNumeric('' + data.start_time)
     ) {
         return res.status(400).json({
             status: 'Bad Request',
@@ -68,12 +68,12 @@ router.put('/:car_id', (req, res) => {
             const old_car = car.toObject() as car;
 
             if (
-                data.hasOwnProperty('region') &&
+                data['region'] !== undefined &&
                 (data.region != old_car.region ||
-                    !old_car.hasOwnProperty('region'))
+                    old_car['region'] === undefined)
             ) {
                 // Remove car from the old region
-                if (!old_car.hasOwnProperty('region')) {
+                if (old_car['region'] !== undefined) {
                     await Region.findByIdAndUpdate(old_car.region, {
                         $pull: { cars: old_car._id },
                     })
