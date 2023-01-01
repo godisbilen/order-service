@@ -35,7 +35,7 @@
         "npm": "^7.11.1",
         "prettier": "^2.2.1",
         "ts-node": "^9.0.0",
-        "tsconfig-paths": "^3.9.0",
+        "tsconfig-paths": "^3.10.1",
         "typescript": "^4.0.3"
     },
     "dependencies": {
